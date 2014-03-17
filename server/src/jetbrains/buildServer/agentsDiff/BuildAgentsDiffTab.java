@@ -16,19 +16,33 @@
 
 package jetbrains.buildServer.agentsDiff;
 
+import jetbrains.buildServer.serverSide.BuildAgentManagerEx;
 import jetbrains.buildServer.web.openapi.PagePlaces;
 import jetbrains.buildServer.web.openapi.PlaceId;
 import jetbrains.buildServer.web.openapi.PluginDescriptor;
 import jetbrains.buildServer.web.openapi.SimpleCustomTab;
 import org.jetbrains.annotations.NotNull;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+
 /**
  * @author Evgeniy.Koshkin
  */
 public class BuildAgentsDiffTab extends SimpleCustomTab {
 
-  public BuildAgentsDiffTab(@NotNull PagePlaces pagePlaces, @NotNull PluginDescriptor pluginDescriptor) {
+  private final BuildAgentManagerEx myBuildAgentManager;
+
+  public BuildAgentsDiffTab(@NotNull PagePlaces pagePlaces, @NotNull PluginDescriptor pluginDescriptor, @NotNull BuildAgentManagerEx buildAgentManager) {
     super(pagePlaces, PlaceId.AGENTS_TAB, "build-agents-diff", pluginDescriptor.getPluginResourcesPath("agentsDiffTab.jsp"), "Diff");
+    myBuildAgentManager = buildAgentManager;
+    addCssFile(pluginDescriptor.getPluginResourcesPath("agentsDiff.css"));
     register();
+  }
+
+  @Override
+  public void fillModel(@NotNull Map<String, Object> model, @NotNull HttpServletRequest request) {
+    super.fillModel(model, request);
+    model.put("agents", myBuildAgentManager.getAllAgents());
   }
 }
