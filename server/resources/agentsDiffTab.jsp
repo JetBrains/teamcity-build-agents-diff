@@ -23,5 +23,8 @@
         </c:forEach>
       </forms:select>
     </div>
+
+    <c:import url="/agents/agentsDiffView.html"/>
+
   </c:otherwise>
 </c:choose>
