@@ -27,7 +27,9 @@
       </forms:select>
     </div>
 
-    <div id="agentsDiffView"/>
+    <div id="agentsDiffView">
+      <span>Please choose build agents to compare.</span>
+    </div>
 
   </c:otherwise>
 </c:choose>
