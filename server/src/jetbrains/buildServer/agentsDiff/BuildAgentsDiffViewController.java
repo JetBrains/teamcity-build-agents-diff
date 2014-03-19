@@ -16,8 +16,13 @@
 
 package jetbrains.buildServer.agentsDiff;
 
+import jetbrains.buildServer.agent.Constants;
 import jetbrains.buildServer.controllers.BaseFormXmlController;
+import jetbrains.buildServer.serverSide.BuildAgentEx;
+import jetbrains.buildServer.serverSide.BuildAgentManagerEx;
 import jetbrains.buildServer.serverSide.SBuildServer;
+import jetbrains.buildServer.util.CollectionsUtil;
+import jetbrains.buildServer.util.filters.Filter;
 import jetbrains.buildServer.web.openapi.PluginDescriptor;
 import jetbrains.buildServer.web.openapi.WebControllerManager;
 import org.jdom.Element;
@@ -26,27 +31,78 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * @author Evgeniy.Koshkin
  */
 public class BuildAgentsDiffViewController extends BaseFormXmlController {
 
-  @NotNull
-  private final PluginDescriptor myPluginDescriptor;
+  @NotNull private final PluginDescriptor myPluginDescriptor;
+  @NotNull private final BuildAgentManagerEx myBuildAgentManager;
 
-  public BuildAgentsDiffViewController(@NotNull SBuildServer server, @NotNull PluginDescriptor pluginDescriptor, @NotNull WebControllerManager webControllerManager) {
+  public BuildAgentsDiffViewController(@NotNull SBuildServer server,
+                                       @NotNull PluginDescriptor pluginDescriptor,
+                                       @NotNull WebControllerManager webControllerManager,
+                                       @NotNull BuildAgentManagerEx buildAgentManager) {
     super(server);
     myPluginDescriptor = pluginDescriptor;
-    webControllerManager.registerController("/agents/agentsDiffView.html", this);
+    myBuildAgentManager = buildAgentManager;
+    webControllerManager.registerController("/agents/diffView.html**", this);
   }
 
   @Override
   protected ModelAndView doGet(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response) {
+    int agentAId = Integer.parseInt(request.getParameter("agentA"));
+    int agentBId = Integer.parseInt(request.getParameter("agentB"));
+    final BuildAgentEx agentA = myBuildAgentManager.findAgentById(agentAId, true);
+    final BuildAgentEx agentB = myBuildAgentManager.findAgentById(agentBId, true);
+    if(agentA == null || agentB == null) return null;
     final ModelAndView view = new ModelAndView(myPluginDescriptor.getPluginResourcesPath("/agentsDiffView.jsp"));
-    view.getModel().put("agentA", "A");
-    view.getModel().put("agentB", "B");
+    final Map<String,Object> model = view.getModel();
+    dumpSystemPropDiff(model, agentA, agentB);
+    dumpEnvVarDiff(model, agentA, agentB);
+    dumpConfigParamDiff(model, agentA, agentB);
+    model.put("agentA", agentA.getName());
+    model.put("agentB", agentB.getName());
     return view;
+  }
+
+  private void dumpSystemPropDiff(Map<String, Object> model, BuildAgentEx agentA, BuildAgentEx agentB) {
+    final Map<String, String> agentAConfigParams = CollectionsUtil.filterMapByKeys(agentA.getBuildParameters(), new Filter<String>() {
+      public boolean accept(@NotNull String data) {
+        return data.startsWith(Constants.SYSTEM_PREFIX);
+      }
+    });
+    final Map<String, String> agentBConfigParams = CollectionsUtil.filterMapByKeys(agentB.getBuildParameters(), new Filter<String>() {
+      public boolean accept(@NotNull String data) {
+        return data.startsWith(Constants.SYSTEM_PREFIX);
+      }
+    });
+    model.put("agentAConfigParams", agentAConfigParams);
+    model.put("agentBConfigParams", agentBConfigParams);
+  }
+
+  private void dumpEnvVarDiff(Map<String, Object> model, BuildAgentEx agentA, BuildAgentEx agentB) {
+    final Map<String, String> agentAEnvVars = CollectionsUtil.filterMapByKeys(agentA.getBuildParameters(), new Filter<String>() {
+      public boolean accept(@NotNull String data) {
+        return data.startsWith(Constants.ENV_PREFIX);
+      }
+    });
+    final Map<String, String> agentBEnvVars = CollectionsUtil.filterMapByKeys(agentB.getBuildParameters(), new Filter<String>() {
+      public boolean accept(@NotNull String data) {
+        return data.startsWith(Constants.ENV_PREFIX);
+      }
+    });
+    model.put("agentAEnvVars", agentAEnvVars);
+    model.put("agentBEnvVars", agentBEnvVars);
+  }
+
+  private void dumpConfigParamDiff(Map<String, Object> model, BuildAgentEx agentA, BuildAgentEx agentB) {
+    final Map<String, String> agentAConfigParams = agentA.getConfigurationParameters();
+    final Map<String, String> agentBConfigParams = agentB.getConfigurationParameters();
+    model.put("agentAConfigParams", agentAConfigParams);
+    model.put("agentBConfigParams", agentBConfigParams);
   }
 
   @Override

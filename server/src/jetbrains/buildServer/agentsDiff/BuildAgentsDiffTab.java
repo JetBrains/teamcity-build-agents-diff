@@ -33,10 +33,13 @@ public class BuildAgentsDiffTab extends SimpleCustomTab {
 
   private final BuildAgentManagerEx myBuildAgentManager;
 
-  public BuildAgentsDiffTab(@NotNull PagePlaces pagePlaces, @NotNull PluginDescriptor pluginDescriptor, @NotNull BuildAgentManagerEx buildAgentManager) {
-    super(pagePlaces, PlaceId.AGENTS_TAB, "build-agents-diff", pluginDescriptor.getPluginResourcesPath("agentsDiffTab.jsp"), "Diff");
+  public BuildAgentsDiffTab(@NotNull PagePlaces pagePlaces,
+                            @NotNull PluginDescriptor pluginDescriptor,
+                            @NotNull BuildAgentManagerEx buildAgentManager) {
+    super(pagePlaces, PlaceId.AGENTS_TAB, "diff", pluginDescriptor.getPluginResourcesPath("agentsDiffTab.jsp"), "Diff");
     myBuildAgentManager = buildAgentManager;
     addCssFile(pluginDescriptor.getPluginResourcesPath("agentsDiff.css"));
+    addJsFile(pluginDescriptor.getPluginResourcesPath("agentsDiff.js"));
     register();
   }
 

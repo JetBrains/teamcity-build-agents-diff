@@ -20,5 +20,5 @@
 <jsp:useBean id="agentB" scope="request" type="java.lang.String"/>
 
 <div>
-  ${agentA} ${agentB}
+  ${agentA} vs. ${agentB} Fight!
 </div>
