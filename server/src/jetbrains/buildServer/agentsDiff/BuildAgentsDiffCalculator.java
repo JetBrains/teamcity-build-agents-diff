@@ -29,8 +29,8 @@ import java.util.Map;
  */
 public class BuildAgentsDiffCalculator {
   public BuildAgentsDiffBean calculateDiff(BuildAgentEx agentA, BuildAgentEx agentB) {
-    final Map<String, String> configParamsA = agentA.getConfigurationParameters();
-    final Map<String, String> configParamsB = agentB.getConfigurationParameters();
+    final Map<String, String> configParamsA = agentA.getAvailableParameters();
+    final Map<String, String> configParamsB = agentB.getAvailableParameters();
 
     final Collection<BuildAgentsDiffEntry> entries = new LinkedList<BuildAgentsDiffEntry>();
 
