@@ -14,14 +14,25 @@
  * limitations under the License.
  */
 
-.actionBar {
-  margin: 1em 0 0 0;
-}
+package jetbrains.buildServer.agentsDiff;
 
-.parameter_diff {
-  background-color: greenyellow;
-}
+import org.jetbrains.annotations.NotNull;
 
-.value_diff {
-  background-color: lightgray;
+/**
+ * @author Evgeniy.Koshkin
+ */
+public enum BuildAgentsDiffEntryType {
+  PARAMETER_NAME("parameter_diff"),
+  PARAMETER_VALUE("value_diff");
+
+  private String myCssClass;
+
+  BuildAgentsDiffEntryType(String cssClass) {
+    myCssClass = cssClass;
+  }
+
+  @NotNull
+  public String getCssClass() {
+    return myCssClass;
+  }
 }

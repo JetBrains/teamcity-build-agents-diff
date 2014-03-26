@@ -14,14 +14,21 @@
  * limitations under the License.
  */
 
-.actionBar {
-  margin: 1em 0 0 0;
-}
+package jetbrains.buildServer.agentsDiff;
 
-.parameter_diff {
-  background-color: greenyellow;
-}
+import java.util.Collection;
 
-.value_diff {
-  background-color: lightgray;
+/**
+ * @author Evgeniy.Koshkin
+ */
+public class BuildAgentsDiffBean {
+  private final Collection<BuildAgentsDiffEntry> myEntries;
+
+  public BuildAgentsDiffBean(Collection<BuildAgentsDiffEntry> entries) {
+    myEntries = entries;
+  }
+
+  public Collection<BuildAgentsDiffEntry> getEntries(){
+    return myEntries;
+  }
 }

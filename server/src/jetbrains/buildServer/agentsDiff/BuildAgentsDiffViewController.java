@@ -20,6 +20,7 @@ import jetbrains.buildServer.controllers.BaseFormXmlController;
 import jetbrains.buildServer.serverSide.BuildAgentEx;
 import jetbrains.buildServer.serverSide.BuildAgentManagerEx;
 import jetbrains.buildServer.serverSide.SBuildServer;
+import jetbrains.buildServer.web.openapi.PluginDescriptor;
 import jetbrains.buildServer.web.openapi.WebControllerManager;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
@@ -33,13 +34,16 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class BuildAgentsDiffViewController extends BaseFormXmlController {
 
+  @NotNull private final PluginDescriptor myPluginDescriptor;
   @NotNull private final BuildAgentManagerEx myBuildAgentManager;
-  @NotNull private final BuildAgentsDiffUtil myUtil = new BuildAgentsDiffUtil();
+  @NotNull private final BuildAgentsDiffCalculator myDiffCalculator = new BuildAgentsDiffCalculator();
 
   public BuildAgentsDiffViewController(@NotNull SBuildServer server,
+                                       @NotNull PluginDescriptor pluginDescriptor,
                                        @NotNull WebControllerManager webControllerManager,
                                        @NotNull BuildAgentManagerEx buildAgentManager) {
     super(server);
+    myPluginDescriptor = pluginDescriptor;
     myBuildAgentManager = buildAgentManager;
     webControllerManager.registerController("/agents/diffView.html**", this);
   }
@@ -52,8 +56,8 @@ public class BuildAgentsDiffViewController extends BaseFormXmlController {
     final BuildAgentEx agentA = myBuildAgentManager.findAgentById(agentAId, true);
     final BuildAgentEx agentB = myBuildAgentManager.findAgentById(agentBId, true);
     if(agentA == null || agentB == null) return null;
-    final ModelAndView view = new ModelAndView("/diffView.jsp");
-    myUtil.fillModel(view, request, agentA, agentB);
+    final ModelAndView view = new ModelAndView(myPluginDescriptor.getPluginResourcesPath("agentsDiffView.jsp"));
+    view.getModel().put("diff", myDiffCalculator.calculateDiff(agentA, agentB));
     return view;
   }
 
