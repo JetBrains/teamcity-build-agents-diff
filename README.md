@@ -7,3 +7,4 @@ TODO:
 - custom diff for PATH
 - YouTrack-like table header
 - Per-symbol diff highlighting
+- Case-sensitive / Case-insensitive modes
