@@ -23,7 +23,26 @@ BS.AgentsDiff = {
     var agentAId = $j('#agentASelection').val();
     var agentBId = $j('#agentBSelection').val();
     if(agentAId.length == 0 || agentBId.length == 0) return false;
-    BS.ajaxUpdater($('agentsDiffView'), url + "?agentA=" + agentAId + "&agentB=" + agentBId, { method: 'get' });
+    BS.ajaxUpdater($('agentsDiffView'), url + "?agentA=" + agentAId + "&agentB=" + agentBId, {
+      method: 'get',
+      evalScripts: true
+    });
     return false;
+  },
+
+  colorize: function() {
+    var dmp = new diff_match_patch();
+    $j("tr.diffRow").each(function() {
+      var propACell = $j(this).children(".propA").first();
+      var propBCell = $j(this).children(".propB").first();
+      if(propACell && propBCell){
+        var textA = propACell.text();
+        var textB = propBCell.text();
+        var diffABHtml = dmp.diff_prettyHtml(dmp.diff_main(textA, textB));
+        var diffBAHtml = dmp.diff_prettyHtml(dmp.diff_main(textB, textA));
+        propACell.html(diffABHtml);
+        propBCell.html(diffBAHtml);
+      }
+    });
   }
 };

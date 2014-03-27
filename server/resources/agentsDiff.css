@@ -18,11 +18,6 @@
   margin: 1em 0 0 0;
 }
 
-/*
-.parameter_diff {
-  background-color: greenyellow;
+.diffTable th {
+  text-align: left;
 }
-
-.value_diff {
-  background-color: lightgray;
-}*/

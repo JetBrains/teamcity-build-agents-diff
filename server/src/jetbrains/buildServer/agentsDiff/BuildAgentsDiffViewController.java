@@ -58,6 +58,8 @@ public class BuildAgentsDiffViewController extends BaseFormXmlController {
     if(agentA == null || agentB == null) return null;
     final ModelAndView view = new ModelAndView(myPluginDescriptor.getPluginResourcesPath("agentsDiffView.jsp"));
     view.getModel().put("diff", myDiffCalculator.calculateDiff(agentA, agentB));
+    view.getModel().put("agentAName", agentA.getName());
+    view.getModel().put("agentBName", agentB.getName());
     return view;
   }
 
