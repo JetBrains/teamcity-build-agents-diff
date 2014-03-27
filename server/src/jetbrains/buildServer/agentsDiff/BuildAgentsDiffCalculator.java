@@ -20,9 +20,7 @@ import com.google.common.collect.MapDifference;
 import com.google.common.collect.Maps;
 import jetbrains.buildServer.serverSide.BuildAgentEx;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Evgeniy.Koshkin
@@ -32,7 +30,7 @@ public class BuildAgentsDiffCalculator {
     final Map<String, String> configParamsA = agentA.getAvailableParameters();
     final Map<String, String> configParamsB = agentB.getAvailableParameters();
 
-    final Collection<BuildAgentsDiffEntry> entries = new LinkedList<BuildAgentsDiffEntry>();
+    final List<BuildAgentsDiffEntry> entries = new LinkedList<BuildAgentsDiffEntry>();
 
     final MapDifference<String, String> mapDifference = Maps.difference(configParamsA, configParamsB);
     if(!mapDifference.areEqual()){
@@ -52,6 +50,11 @@ public class BuildAgentsDiffCalculator {
         entries.add(new BuildAgentsDiffEntry(BuildAgentsDiffEntryType.PARAMETER_NAME, key, null, map.get(key)));
       }
     }
+    Collections.sort(entries, new Comparator<BuildAgentsDiffEntry>() {
+      public int compare(BuildAgentsDiffEntry o1, BuildAgentsDiffEntry o2) {
+        return o1.getPropertyName().compareToIgnoreCase(o2.getPropertyName());
+      }
+    });
     return new BuildAgentsDiffBean(entries);
   }
 }

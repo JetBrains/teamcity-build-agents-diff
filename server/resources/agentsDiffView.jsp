@@ -4,15 +4,19 @@
 
 <c:choose>
   <c:when test="${not empty diff.entries}">
+    <table>
     <c:forEach items="${diff.entries}" var="entry">
       <c:set var="entryType" value="${entry.type}"/>
       <c:set var="propertyName" value="${entry.propertyName}"/>
       <c:set var="propertyValueA" value="${entry.propertyValueA}"/>
       <c:set var="propertyValueB" value="${entry.propertyValueB}"/>
-      <div class="${entryType.cssClass}">
-          ${propertyName} : ${propertyValueA} vs ${propertyValueB}
-      </div>
+      <tr class="${entryType.cssClass}">
+        <td>${propertyName}</td>
+        <td>${propertyValueA}</td>
+        <td>${propertyValueB}</td>
+      </tr>
     </c:forEach>
+    </table>
   </c:when>
   <c:otherwise>
     Build agents are identical.

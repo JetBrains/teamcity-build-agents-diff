@@ -20,6 +20,8 @@ package jetbrains.buildServer.agentsDiff;
  * @author Evgeniy.Koshkin
  */
 public class BuildAgentsDiffEntry {
+  private static final String VALUE_NOT_DEFINED_MARK = "---";
+
   private final BuildAgentsDiffEntryType myType;
   private final String myPropertyName;
   private final String myPropertyValueA;
@@ -41,10 +43,10 @@ public class BuildAgentsDiffEntry {
   }
 
   public String getPropertyValueA() {
-    return myPropertyValueA;
+    return myPropertyValueA == null ? VALUE_NOT_DEFINED_MARK : myPropertyValueA;
   }
 
   public String getPropertyValueB() {
-    return myPropertyValueB;
+    return myPropertyValueB == null ? VALUE_NOT_DEFINED_MARK : myPropertyValueB;
   }
 }
