@@ -60,7 +60,7 @@ BS.AgentsDiff = {
               .replace(pattern_gt, '&gt;').replace(pattern_para, '&para;<br>');
       switch (op) {
         case DIFF_INSERT:
-          html[x] = '<ins style="background:#e6ffe6;">' + text + '</ins>';
+          html[x] = '<span style="background:#e6ffe6;">' + text + '</span>';
           break;
         case DIFF_EQUAL:
           html[x] = '<span>' + text + '</span>';
