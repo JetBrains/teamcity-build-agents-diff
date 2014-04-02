@@ -14,10 +14,19 @@
       <c:set var="propertyName" value="${entry.propertyName}"/>
       <c:set var="propertyValueA" value="${entry.propertyValueA}"/>
       <c:set var="propertyValueB" value="${entry.propertyValueB}"/>
+      <c:set var="valuesDiffer" value="${entry.valuesDiffer}"/>
       <tr class="diffRow">
         <td>${propertyName}</td>
-        <td class="propA">${propertyValueA}</td>
-        <td class="propB">${propertyValueB}</td>
+        <c:choose>
+          <c:when test="${valuesDiffer}">
+            <td class="propA">${propertyValueA}</td>
+            <td class="propB">${propertyValueB}</td>
+          </c:when>
+          <c:otherwise>
+            <td>${propertyValueA}</td>
+            <td>${propertyValueB}</td>
+          </c:otherwise>
+        </c:choose>
       </tr>
     </c:forEach>
     </table>

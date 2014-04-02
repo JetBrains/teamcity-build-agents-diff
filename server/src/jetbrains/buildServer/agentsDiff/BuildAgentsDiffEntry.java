@@ -49,4 +49,8 @@ public class BuildAgentsDiffEntry {
   public String getPropertyValueB() {
     return myPropertyValueB == null ? VALUE_NOT_DEFINED_MARK : myPropertyValueB;
   }
+
+  public Boolean getValuesDiffer() {
+    return myType == BuildAgentsDiffEntryType.PARAMETER_VALUE;
+  }
 }
