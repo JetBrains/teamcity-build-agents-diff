@@ -16,19 +16,38 @@
 
 package jetbrains.buildServer.agentsDiff;
 
+import jetbrains.buildServer.serverSide.BuildAgentEx;
+
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * @author Evgeniy.Koshkin
  */
 public class BuildAgentsDiffBean {
+  private final BuildAgentEx myAgentA;
+  private final BuildAgentEx myAgentB;
   private final Collection<BuildAgentsDiffEntry> myEntries;
 
-  public BuildAgentsDiffBean(Collection<BuildAgentsDiffEntry> entries) {
+  public BuildAgentsDiffBean(BuildAgentEx agentA, BuildAgentEx agentB, Collection<BuildAgentsDiffEntry> entries) {
+    myAgentA = agentA;
+    myAgentB = agentB;
     myEntries = entries;
   }
 
   public Collection<BuildAgentsDiffEntry> getEntries(){
     return myEntries;
+  }
+
+  public BuildAgentEx getAgentA() {
+    return myAgentA;
+  }
+
+  public BuildAgentEx getAgentB() {
+    return myAgentB;
+  }
+
+  public static BuildAgentsDiffBean empty() {
+    return new BuildAgentsDiffBean(null, null, Collections.EMPTY_LIST);
   }
 }

@@ -55,6 +55,6 @@ public class BuildAgentsDiffCalculator {
         return o1.getPropertyName().compareToIgnoreCase(o2.getPropertyName());
       }
     });
-    return new BuildAgentsDiffBean(entries);
+    return new BuildAgentsDiffBean(agentA, agentB, entries);
   }
 }

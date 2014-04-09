@@ -27,9 +27,11 @@
       </forms:select>
     </div>
 
-    <div id="agentsDiffView">
-      <span>Please choose build agents to compare.</span>
-    </div>
+    <div id="agentsDiffView"></div>
+
+    <script type="application/javascript">
+      BS.AgentsDiff.updateDiff('${ajaxUrl}');
+    </script>
 
   </c:otherwise>
 </c:choose>

@@ -50,16 +50,22 @@ public class BuildAgentsDiffViewController extends BaseFormXmlController {
 
   @Override
   protected ModelAndView doGet(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response) {
-
-    int agentAId = Integer.parseInt(request.getParameter("agentA"));
-    int agentBId = Integer.parseInt(request.getParameter("agentB"));
-    final BuildAgentEx agentA = myBuildAgentManager.findAgentById(agentAId, true);
-    final BuildAgentEx agentB = myBuildAgentManager.findAgentById(agentBId, true);
-    if(agentA == null || agentB == null) return null;
     final ModelAndView view = new ModelAndView(myPluginDescriptor.getPluginResourcesPath("agentsDiffView.jsp"));
-    view.getModel().put("diff", myDiffCalculator.calculateDiff(agentA, agentB));
-    view.getModel().put("agentAName", agentA.getName());
-    view.getModel().put("agentBName", agentB.getName());
+    BuildAgentsDiffBean diff = BuildAgentsDiffBean.empty();
+
+    final String agentAIdString = request.getParameter("agentA");
+    final String agentBIdString = request.getParameter("agentB");
+    if(!agentAIdString.isEmpty() && !agentBIdString.isEmpty()){
+      int agentAId = Integer.parseInt(agentAIdString);
+      int agentBId = Integer.parseInt(agentBIdString);
+      final BuildAgentEx agentA = myBuildAgentManager.findAgentById(agentAId, true);
+      final BuildAgentEx agentB = myBuildAgentManager.findAgentById(agentBId, true);
+      if(agentA != null && agentB != null) {
+        diff = myDiffCalculator.calculateDiff(agentA, agentB);
+      }
+    }
+
+    view.getModel().put("diff", diff);
     return view;
   }
 

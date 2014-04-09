@@ -23,7 +23,6 @@ BS.AgentsDiff = {
   updateDiff: function(url){
     var agentAId = $j('#agentASelection').val();
     var agentBId = $j('#agentBSelection').val();
-    if(agentAId.length == 0 || agentBId.length == 0) return false;
     BS.ajaxUpdater($('agentsDiffView'), url + "?agentA=" + agentAId + "&agentB=" + agentBId, {
       method: 'get',
       evalScripts: true
