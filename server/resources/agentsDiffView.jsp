@@ -15,19 +15,22 @@
       <c:set var="propertyValueA" value="${entry.propertyValueA}"/>
       <c:set var="propertyValueB" value="${entry.propertyValueB}"/>
       <c:set var="valuesDiffer" value="${entry.valuesDiffer}"/>
-      <tr class="diffRow">
-        <td>${propertyName}</td>
-        <c:choose>
-          <c:when test="${valuesDiffer}">
+      <c:choose>
+        <c:when test="${valuesDiffer}">
+          <tr class="diffRow">
+            <td>${propertyName}</td>
             <td class="propA">${propertyValueA}</td>
             <td class="propB">${propertyValueB}</td>
-          </c:when>
-          <c:otherwise>
+          </tr>
+        </c:when>
+        <c:otherwise>
+          <tr class="diffRow">
+            <td bgcolor="#e6ffe6">${propertyName}</td>
             <td>${propertyValueA}</td>
             <td>${propertyValueB}</td>
-          </c:otherwise>
-        </c:choose>
-      </tr>
+          </tr>
+        </c:otherwise>
+      </c:choose>
     </c:forEach>
     </table>
     <script type="application/javascript">
