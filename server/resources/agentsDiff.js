@@ -40,8 +40,8 @@ BS.AgentsDiff = {
         var textB = propBCell.text();
         var diffABHtml = BS.AgentsDiff.diff2Html(dmp.diff_main(textA, textB));
         var diffBAHtml = BS.AgentsDiff.diff2Html(dmp.diff_main(textB, textA));
-        propACell.html(diffABHtml);
-        propBCell.html(diffBAHtml);
+        propACell.html(diffBAHtml);
+        propBCell.html(diffABHtml);
       }
     });
   },
