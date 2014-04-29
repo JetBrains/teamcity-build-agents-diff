@@ -22,7 +22,17 @@
   text-align: left;
 }
 
-.diffRow:hover
-{
+.diffTable td {
+  vertical-align: top;
+  padding: 1em;
+}
+
+.diffRow:hover {
   background-color:#f4f4f4;
+}
+
+div.propValueContainer {
+  max-width: 450px;
+  vertical-align: inherit;
+  overflow-wrap: break-word;
 }

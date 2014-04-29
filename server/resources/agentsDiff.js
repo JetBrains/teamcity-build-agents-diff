@@ -33,8 +33,8 @@ BS.AgentsDiff = {
   colorize: function() {
     var dmp = new diff_match_patch();
     $j("tr.diffRow").each(function() {
-      var propACell = $j(this).children(".propA").first();
-      var propBCell = $j(this).children(".propB").first();
+      var propACell = $j(this).children(".propA").children().first();
+      var propBCell = $j(this).children(".propB").children().first();
       if(propACell && propBCell){
         var textA = propACell.text();
         var textB = propBCell.text();

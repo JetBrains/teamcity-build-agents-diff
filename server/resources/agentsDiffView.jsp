@@ -22,15 +22,23 @@
               <c:when test="${valuesDiffer}">
                 <tr class="diffRow">
                   <td>${propertyName}</td>
-                  <td class="propA">${propertyValueA}</td>
-                  <td class="propB">${propertyValueB}</td>
+                  <td class="propA">
+                    <div class="propValueContainer">${propertyValueA}</div>
+                  </td>
+                  <td class="propB">
+                    <div class="propValueContainer">${propertyValueB}</div>
+                  </td>
                 </tr>
               </c:when>
               <c:otherwise>
                 <tr class="diffRow">
                   <td bgcolor="#e6ffe6">${propertyName}</td>
-                  <td>${propertyValueA}</td>
-                  <td>${propertyValueB}</td>
+                  <td>
+                    <div class="propValueContainer">${propertyValueA}</div>
+                  </td>
+                  <td>
+                    <div class="propValueContainer">${propertyValueB}</div>
+                  </td>
                 </tr>
               </c:otherwise>
             </c:choose>
