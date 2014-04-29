@@ -21,3 +21,8 @@
 .diffTable th {
   text-align: left;
 }
+
+.diffRow:hover
+{
+  background-color:#f4f4f4;
+}
