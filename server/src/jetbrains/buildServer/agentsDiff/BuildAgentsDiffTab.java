@@ -47,6 +47,6 @@ public class BuildAgentsDiffTab extends SimpleCustomTab {
   @Override
   public void fillModel(@NotNull Map<String, Object> model, @NotNull HttpServletRequest request) {
     super.fillModel(model, request);
-    model.put("agents", myBuildAgentManager.getAllAgents());
+    model.put("allAgents", myBuildAgentManager.getAllAgents());
   }
 }

@@ -34,6 +34,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class BuildAgentsDiffViewController extends BaseFormXmlController {
 
+  private static final String AGENTS_DIFF_VIEW_HTML = "/agents/diffView.html**";
+
   @NotNull private final PluginDescriptor myPluginDescriptor;
   @NotNull private final BuildAgentManagerEx myBuildAgentManager;
   @NotNull private final BuildAgentsDiffCalculator myDiffCalculator = new BuildAgentsDiffCalculator();
@@ -45,7 +47,7 @@ public class BuildAgentsDiffViewController extends BaseFormXmlController {
     super(server);
     myPluginDescriptor = pluginDescriptor;
     myBuildAgentManager = buildAgentManager;
-    webControllerManager.registerController("/agents/diffView.html**", this);
+    webControllerManager.registerController(AGENTS_DIFF_VIEW_HTML, this);
   }
 
   @Override

@@ -20,6 +20,24 @@
 
 BS.AgentsDiff = {
 
+  chooseAgents: function(){
+    var parsedHash = BS.Util.paramsFromHash('&');
+    var processed = false;
+    var agendAId = parsedHash['agentA'];
+    if (agendAId) {
+      $j('#agentASelection').val(agendAId);
+      processed = true;
+    }
+    var agentBId = parsedHash['agentB'];
+    if (agentBId) {
+      $j('#agentBSelection').val(agentBId);
+      processed = true;
+    }
+    if(processed){
+      BS.Util.setParamsInHash({}, '&', true);
+    }
+  },
+
   updateDiff: function(url){
     var agentAId = $j('#agentASelection').val();
     var agentBId = $j('#agentBSelection').val();
