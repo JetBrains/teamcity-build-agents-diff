@@ -1,5 +1,5 @@
 <%@ include file="/include-internal.jsp"%>
-
+<%@ taglib prefix="agent" tagdir="/WEB-INF/tags/agent" %>
 <jsp:useBean id="diff" type="jetbrains.buildServer.agentsDiff.BuildAgentsDiffBean" scope="request"/>
 <jsp:useBean id="diffPermalink" type="java.lang.String" scope="request"/>
 
@@ -62,7 +62,49 @@
         </script>
       </c:when>
       <c:otherwise>
-        Build agents are identical.
+        Build agents parameters are identical.
+      </c:otherwise>
+    </c:choose>
+
+    <c:choose>
+      <c:when test="${diff.configurations.different}">
+        <p>Incompatible build configurations:</p>
+        <table id="agentsConfigurationsDiffTable" class="configurations">
+        <tr>
+          <th>
+            <c:choose>
+              <c:when test="${diff.agentA != null}"> <bs:agentDetailsLink agent="${diff.agentA}"/> </c:when>
+              <c:otherwise> <bs:agentDetailsLink agentTypeId="${diff.idA}"/> </c:otherwise>
+            </c:choose>
+          </th>
+          <th>
+            <c:choose>
+              <c:when test="${diff.agentB != null}"> <bs:agentDetailsLink agent="${diff.agentB}"/> </c:when>
+              <c:otherwise> <bs:agentDetailsLink agentTypeId="${diff.idB}"/> </c:otherwise>
+            </c:choose>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <c:set scope="request" var="agentDetails" value="${diff.configurations.formA}"/>
+            <c:forEach items="${diff.configurations.missingA}" var="entry2">
+              <agent:projectCompatibleEntries project="${entry2.key}"
+                                              compatibilities="${entry2.value}"
+                                              compatible="true"/>
+            </c:forEach>
+          </td>
+          <td>
+            <c:set var="agentDetails" value="${diff.configurations.formB}"/>
+            <c:forEach items="${diff.configurations.missingB}" var="entry2">
+              <agent:projectCompatibleEntries project="${entry2.key}"
+                                              compatibilities="${entry2.value}"
+                                              compatible="false"/>
+            </c:forEach>
+          </td>
+        </tr>
+      </c:when>
+      <c:otherwise>
+        Build agents compatible configurations are identical.
       </c:otherwise>
     </c:choose>
   </c:otherwise>

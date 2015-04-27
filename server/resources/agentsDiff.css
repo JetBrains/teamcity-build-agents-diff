@@ -36,3 +36,13 @@ div.propValueContainer {
   vertical-align: inherit;
   overflow-wrap: break-word;
 }
+
+.configurations {
+  text-align: left;
+  width: 100%;
+}
+
+.configurations th{
+  text-align: left;
+  width: 50%;
+}
