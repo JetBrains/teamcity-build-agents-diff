@@ -4,7 +4,7 @@
 
 <c:choose>
   <c:when test="${diff.agentA == null || diff.agentB == null}">
-    <span>Please choose build agents to compare.</span>
+    <span>Please choose builds to compare.</span>
   </c:when>
   <c:otherwise>
     <c:choose>
@@ -49,7 +49,7 @@
         </script>
       </c:when>
       <c:otherwise>
-        Build agents are identical.
+        Builds are identical.
       </c:otherwise>
     </c:choose>
   </c:otherwise>

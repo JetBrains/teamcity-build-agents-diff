@@ -9,9 +9,9 @@
   </c:when>
   <c:otherwise>
     <div class="actionBar">
-      <label>Compare build agent</label>
+      <label>Compare builds</label>
       <forms:select name="agentASelection" id="agentASelection" style="width: 20em" enableFilter="true" onchange="return BS.AgentsDiff.updateDiff('${ajaxUrl}');">
-        <forms:option value="">-- Select agent --</forms:option>
+        <forms:option value="">-- Select build --</forms:option>
         <c:forEach items="${allAgents}" var="agentA">
           <c:set var="agentAId" value="${agentA.id}"/>
           <forms:option value="${agentAId}"><c:out value="${agentA.name}"/> <bs:agentShortStatus agent="${agentA}" showUnavailable="${true}"/></forms:option>
@@ -19,7 +19,7 @@
       </forms:select>
       &nbsp;<label>with</label>
       <forms:select name="agentBSelection" id="agentBSelection" style="width: 20em" enableFilter="true" onchange="return BS.AgentsDiff.updateDiff('${ajaxUrl}');">
-        <forms:option value="">-- Select agent --</forms:option>
+        <forms:option value="">-- Select build --</forms:option>
         <c:forEach items="${allAgents}" var="agentB">
           <c:set var="agentBId" value="${agentB.id}"/>
           <forms:option value="${agentBId}"><c:out value="${agentB.name}"/> <bs:agentShortStatus agent="${agentB}" showUnavailable="${true}"/></forms:option>
