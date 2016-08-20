@@ -2,17 +2,12 @@
 
 <jsp:useBean id="diff" type="jetbrains.buildServer.agentsDiff.BuildAgentsDiffBean" scope="request"/>
 
-<c:choose>
-  <c:when test="${diff.agentA == null || diff.agentB == null}">
-    <span>Please choose builds to compare.</span>
-  </c:when>
-  <c:otherwise>
     <c:choose>
       <c:when test="${not empty diff.entries}">
         <table id="agentsDiffTable" class="diffTable">
-          <th>Agent Parameter</th>
-          <th>${diff.agentA.name}</th>
-          <th>${diff.agentB.name}</th>
+          <th>Build Parameter</th>
+          <th>${diff.agentA}</th>
+          <th>${diff.agentB}</th>
           <c:forEach items="${diff.entries}" var="entry">
             <c:set var="propertyName" value="${entry.propertyName}"/>
             <c:set var="propertyValueA" value="${entry.propertyValueA}"/>
@@ -52,5 +47,3 @@
         Builds are identical.
       </c:otherwise>
     </c:choose>
-  </c:otherwise>
-</c:choose>

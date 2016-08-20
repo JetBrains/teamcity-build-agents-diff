@@ -18,6 +18,7 @@ package jetbrains.buildServer.agentsDiff;
 
 import jetbrains.buildServer.agentServer.Server;
 import jetbrains.buildServer.serverSide.*;
+import jetbrains.buildServer.serverSide.impl.audit.finders.BuildTypeFinder;
 import jetbrains.buildServer.util.ItemProcessor;
 import jetbrains.buildServer.web.openapi.PagePlaces;
 import jetbrains.buildServer.web.openapi.PlaceId;
@@ -31,18 +32,25 @@ import java.util.Map;
 
 /**
  * @author Evgeniy.Koshkin
+ *
+ * Choose a build to compare with and then progress to this page:
+ * http://127.0.0.1:8111/agents/diffView.html?buildId=4&buildTypeId=Test_ABuildType&buildIdB=4
  */
 public class BuildAgentsDiffTab extends SimpleCustomTab {
 
   private final BuildsManager myBuildManager;
+  private final BuildHistoryEx myBuildHistory;
 
   public BuildAgentsDiffTab(@NotNull PagePlaces pagePlaces,
                             @NotNull PluginDescriptor pluginDescriptor,
-                            @NotNull BuildsManager buildManager) {
+                            @NotNull BuildsManager buildManager,
+                            @NotNull BuildHistoryEx buildHistory) {
     //          Proect -> Build_conf_tab ->
 
     super(pagePlaces, PlaceId.BUILD_RESULTS_TAB, "diff", pluginDescriptor.getPluginResourcesPath("agentsDiffTab.jsp"), "Diff");
     myBuildManager = buildManager;
+    myBuildHistory = buildHistory;
+   // buildFinder
     addCssFile(pluginDescriptor.getPluginResourcesPath("agentsDiff.css"));
     addJsFile(pluginDescriptor.getPluginResourcesPath("agentsDiff.js"));
     addJsFile(pluginDescriptor.getPluginResourcesPath("libs/diff_match_patch.js"));
@@ -57,26 +65,44 @@ public class BuildAgentsDiffTab extends SimpleCustomTab {
 
 
 
-    String buildId = request.getParameter("buildId");
-    String buildTypeId = request.getParameter("buildTypeId");
+    String buildNumber = request.getParameter("buildId");
+    String buildTypeExternalId = request.getParameter("buildTypeId");
 
     //myBuildManager.processBuilds(options, x.Builds);
-    java.util.List<SBuild> builds = new ArrayList<SBuild>();
+    java.util.List builds = new ArrayList();
+    builds = myBuildHistory.getEntries(true);
+
+    //BuildFinder finder = new BuildFinder();
+    BuildQueryOptions options = new BuildQueryOptions();
+    options.setIncludeRunning(true);
+    options.setMatchAllBranches(true);
+    //options
+
+
+
+/*    myBuildManager.processBuilds(options, finder);
 
     SBuild test_aBuildType = myBuildManager.findBuildInstanceByBuildNumber("Test_ABuildType", "1");
     builds.add(test_aBuildType);
+    builds.add("testyme");*/
     System.out.println("Hello BOB");
-    System.out.println(test_aBuildType);
+    ///System.out.println(test_aBuildType);
+
+    //logger.warn("buildid a is ." + buildAIdString + ".");
+
+   // builds.addAll(finder.buildList);
    // builds.add(
 //    myBuildManager.findBuildInstanceById(  ).name
     model.put("allBuilds", builds);
   }
 }
 /*
-class XXXX implements ItemProcessor<SBuild> {
-
+class BuildFinder implements ItemProcessor<SBuild> {
+  public java.util.List<SBuild> buildList = new java.util.List<SBuild>();
 
   public boolean processItem(SBuild item) {
+
+    buildList.add(item);
 
     return true;
   }
