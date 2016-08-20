@@ -16,7 +16,9 @@
 
 package jetbrains.buildServer.agentsDiff;
 
-import jetbrains.buildServer.serverSide.BuildAgentManagerEx;
+import jetbrains.buildServer.agentServer.Server;
+import jetbrains.buildServer.serverSide.*;
+import jetbrains.buildServer.util.ItemProcessor;
 import jetbrains.buildServer.web.openapi.PagePlaces;
 import jetbrains.buildServer.web.openapi.PlaceId;
 import jetbrains.buildServer.web.openapi.PluginDescriptor;
@@ -24,6 +26,7 @@ import jetbrains.buildServer.web.openapi.SimpleCustomTab;
 import org.jetbrains.annotations.NotNull;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -31,13 +34,15 @@ import java.util.Map;
  */
 public class BuildAgentsDiffTab extends SimpleCustomTab {
 
-  private final BuildAgentManagerEx myBuildAgentManager;
+  private final BuildsManager myBuildManager;
 
   public BuildAgentsDiffTab(@NotNull PagePlaces pagePlaces,
                             @NotNull PluginDescriptor pluginDescriptor,
-                            @NotNull BuildAgentManagerEx buildAgentManager) {
-    super(pagePlaces, PlaceId.AGENTS_TAB, "diff", pluginDescriptor.getPluginResourcesPath("agentsDiffTab.jsp"), "Diff");
-    myBuildAgentManager = buildAgentManager;
+                            @NotNull BuildsManager buildManager) {
+    //          Proect -> Build_conf_tab ->
+
+    super(pagePlaces, PlaceId.BUILD_RESULTS_TAB, "diff", pluginDescriptor.getPluginResourcesPath("agentsDiffTab.jsp"), "Diff");
+    myBuildManager = buildManager;
     addCssFile(pluginDescriptor.getPluginResourcesPath("agentsDiff.css"));
     addJsFile(pluginDescriptor.getPluginResourcesPath("agentsDiff.js"));
     addJsFile(pluginDescriptor.getPluginResourcesPath("libs/diff_match_patch.js"));
@@ -47,6 +52,32 @@ public class BuildAgentsDiffTab extends SimpleCustomTab {
   @Override
   public void fillModel(@NotNull Map<String, Object> model, @NotNull HttpServletRequest request) {
     super.fillModel(model, request);
-    model.put("allAgents", myBuildAgentManager.getAllAgents());
+
+    //BuildQueryOptions options = new BuildQueryOptions();
+
+
+
+    String buildId = request.getParameter("buildId");
+    String buildTypeId = request.getParameter("buildTypeId");
+
+    //myBuildManager.processBuilds(options, x.Builds);
+    java.util.List<SBuild> builds = new ArrayList<SBuild>();
+
+    SBuild test_aBuildType = myBuildManager.findBuildInstanceByBuildNumber("Test_ABuildType", "1");
+    builds.add(test_aBuildType);
+    System.out.println("Hello BOB");
+    System.out.println(test_aBuildType);
+   // builds.add(
+//    myBuildManager.findBuildInstanceById(  ).name
+    model.put("allBuilds", builds);
   }
 }
+/*
+class XXXX implements ItemProcessor<SBuild> {
+
+
+  public boolean processItem(SBuild item) {
+
+    return true;
+  }
+}*/
