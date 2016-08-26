@@ -33,10 +33,6 @@ public class BuildAgentsDiffCalculator {
 
     final List<BuildAgentsDiffEntry> entries = new LinkedList<BuildAgentsDiffEntry>();
 
-    /*for(String key : configParamsB.keySet()){
-      entries.add(new BuildAgentsDiffEntry(BuildAgentsDiffEntryType.PARAMETER_NAME, key, null, configParamsB.get(key)));
-    }*/
-
     final MapDifference<String, String> mapDifference = Maps.difference(configParamsA, configParamsB);
     if(!mapDifference.areEqual()){
       final Map<String, MapDifference.ValueDifference<String>> stringValueDifferenceMap = mapDifference.entriesDiffering();

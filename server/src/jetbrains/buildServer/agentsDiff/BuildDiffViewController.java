@@ -31,16 +31,16 @@ import java.util.List;
 /**
  * @author Evgeniy.Koshkin
  */
-public class BuildAgentsDiffViewController extends BaseFormXmlController {
+public class BuildDiffViewController extends BaseFormXmlController {
 
-  private static final String AGENTS_DIFF_VIEW_HTML = "/agents/diffView.html**";
+  private static final String AGENTS_DIFF_VIEW_HTML = "/builds/diffView.html**";
 
   @NotNull private final PluginDescriptor myPluginDescriptor;
   @NotNull private final BuildsManager myBuildAgentManager;
   @NotNull private final BuildHistory myBuildHistory;
   @NotNull private final BuildAgentsDiffCalculator myDiffCalculator = new BuildAgentsDiffCalculator();
 
-  public BuildAgentsDiffViewController(@NotNull SBuildServer server,
+  public BuildDiffViewController(@NotNull SBuildServer server,
                                        @NotNull PluginDescriptor pluginDescriptor,
                                        @NotNull WebControllerManager webControllerManager,
                                        @NotNull BuildsManager buildAgentManager,
@@ -54,38 +54,22 @@ public class BuildAgentsDiffViewController extends BaseFormXmlController {
 
   @Override
   protected ModelAndView doGet(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response) {
-    final ModelAndView view = new ModelAndView(myPluginDescriptor.getPluginResourcesPath("agentsDiffView.jsp"));
+    final ModelAndView view = new ModelAndView(myPluginDescriptor.getPluginResourcesPath("buildDiffView.jsp"));
     BuildAgentsDiffBean diff = BuildAgentsDiffBean.empty();
 
-    final String buildAIdString = request.getParameter("buildId");
-    final String buildBIdString = request.getParameter("buildIdB");
-    final String buildAIdTypeString = request.getParameter("buildTypeId");
-    final String buildBIdTypeString = request.getParameter("buildTypeId");
-    if(!buildAIdString.isEmpty() && !buildBIdString.isEmpty()){
-      logger.warn("buildtype a is ." + buildAIdTypeString + ".");
-      logger.warn("buildid a is ." + buildAIdString + ".");
-
-      //BuildFinder finder = new BuildFinder();
-      //myBuildAgentManager.processBuilds(new BuildQueryOptions(), finder);
+    final String buildNumberA = request.getParameter("buildId");
+    final String buildNumberB = request.getParameter("buildIdB");
+    final String externalBuildTypeA = request.getParameter("buildTypeId");
+    final String externalBuildTypeB = request.getParameter("buildTypeIdB");
+    if(!buildNumberA.isEmpty() && !buildNumberB.isEmpty()){
 
       java.util.List<SFinishedBuild> x = myBuildHistory.getEntries(true);
 
-      SFinishedBuild foundA = findBuild(buildAIdString, buildAIdTypeString, x);
-      SFinishedBuild foundB = findBuild(buildBIdString, buildBIdTypeString, x);
+      SFinishedBuild buildA = findBuild(buildNumberA, externalBuildTypeA, x);
+      SFinishedBuild buildB = findBuild(buildNumberB, externalBuildTypeB, x);
 
-
-//      java.util.List<SBuild> x = finder.buildList;//myBuildAgentManager.findBuildInstancesByBuildNumber(buildAIdTypeString, buildAIdString);
-
-      logger.warn("builds a is " + x);
-      SBuild agentA = foundA;
-      SBuild agentB = foundB;
-
-//      final SBuild agentA = myBuildAgentManager.findBuildInstanceByBuildNumber(buildAIdTypeString, buildAIdString);
-//      final SBuild agentB = myBuildAgentManager.findBuildInstanceByBuildNumber(buildBIdTypeString, buildBIdString);
-      logger.warn("build a is " + agentA);
-      logger.warn("build b is " + agentB);
-      if(agentA != null && agentB != null) {
-        diff = myDiffCalculator.calculateDiff(agentA, agentB);
+      if(buildA != null && buildB != null) {
+        diff = myDiffCalculator.calculateDiff(buildA, buildB);
       }
     }
 

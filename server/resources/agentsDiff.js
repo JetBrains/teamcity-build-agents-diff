@@ -25,7 +25,7 @@ BS.AgentsDiff = {
     var processed = false;
     var agendAId = parsedHash['buildIdB'];
     if (agendAId) {
-      $j('#agentASelection').val(agendAId);
+      $j('#buildSelectionB').val(agendAId);
       processed = true;
     }
     if(processed){
@@ -34,8 +34,9 @@ BS.AgentsDiff = {
   },
 
   updateDiff: function(url){
-    var agentAId = $j('#agentASelection').val();
-    BS.ajaxUpdater($('agentsDiffView'), url + "&buildIdB=" + agentAId, {
+    var buildIdB = $j('#buildSelectionB').val();
+    var buildTypeIdB = $j('#buildTypeSelectionB').val();
+    BS.ajaxUpdater($('agentsDiffView'), url + "&buildIdB=" + buildIdB + "&buildTypeIdB=" + buildTypeIdB, {
       method: 'get',
       evalScripts: true
     });
