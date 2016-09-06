@@ -19,16 +19,17 @@ package jetbrains.buildServer.agentsDiff;
 import com.google.common.collect.MapDifference;
 import com.google.common.collect.Maps;
 import jetbrains.buildServer.serverSide.BuildAgentEx;
+import jetbrains.buildServer.serverSide.SBuild;
 
 import java.util.*;
 
 /**
  * @author Evgeniy.Koshkin
  */
-public class BuildAgentsDiffCalculator {
-  public BuildAgentsDiffBean calculateDiff(BuildAgentEx agentA, BuildAgentEx agentB) {
-    final Map<String, String> configParamsA = agentA.getAvailableParameters();
-    final Map<String, String> configParamsB = agentB.getAvailableParameters();
+public class BuildDiffCalculator {
+  public BuildDiffBean calculateDiff(SBuild agentA, SBuild agentB) {
+    final Map<String, String> configParamsA = agentA.getBuildOwnParameters();
+    final Map<String, String> configParamsB = agentB.getBuildOwnParameters();
 
     final List<BuildAgentsDiffEntry> entries = new LinkedList<BuildAgentsDiffEntry>();
 
@@ -55,6 +56,6 @@ public class BuildAgentsDiffCalculator {
         return o1.getPropertyName().compareToIgnoreCase(o2.getPropertyName());
       }
     });
-    return new BuildAgentsDiffBean(agentA, agentB, entries);
+    return new BuildDiffBean(agentA, agentB, entries);
   }
 }
