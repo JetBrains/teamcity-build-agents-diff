@@ -31,15 +31,40 @@ BS.AgentsDiff = {
     if(processed){
       BS.Util.setParamsInHash({}, '&', true);
     }
+
+    processed = false;
+    var buildTypeB = parsedHash['buildTypeB'];
+    if (buildTypeB) {
+      $j('#buildTypeBSelection').val(buildTypeB);
+      processed = true;
+    }
+    if(processed){
+      BS.Util.setParamsInHash({}, '&', true);
+    }
   },
 
   updateDiff: function(url){
-    var buildIdB = $j('#buildSelectionB').val();
-    var buildTypeIdB = $j('#buildTypeSelectionB').val();
+    var buildId = $j('#buildSelection').val();
+    var buildTypeId = $j('#buildTypeSelection').val();
+
+    var buildIdB = $j('#buildBSelection').val();
+    var buildTypeIdB = $j('#buildTypeBSelection').val();
     BS.ajaxUpdater($('agentsDiffView'), url + "&buildIdB=" + buildIdB + "&buildTypeIdB=" + buildTypeIdB, {
       method: 'get',
       evalScripts: true
     });
+
+    if (buildTypeIdB)
+    {
+      var params = url.split("?")[1];
+      var newURL = "/viewLog.html?tab=diff&"+ params +"&buildTypeIdB=" + buildTypeIdB;
+
+      if (!location.href.endsWith(newURL)) {
+        location.replace(newURL);
+      }
+      return true;
+    }
+
     return false;
   },
 

@@ -55,7 +55,7 @@ public class BuildDiffViewController extends BaseFormXmlController {
   @Override
   protected ModelAndView doGet(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response) {
     final ModelAndView view = new ModelAndView(myPluginDescriptor.getPluginResourcesPath("buildDiffView.jsp"));
-    BuildAgentsDiffBean diff = BuildAgentsDiffBean.empty();
+    BuildDiffBean diff = BuildDiffBean.empty();
 
     final String buildNumberA = request.getParameter("buildId");
     final String buildNumberB = request.getParameter("buildIdB");

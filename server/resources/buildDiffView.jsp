@@ -1,13 +1,20 @@
 <%@ include file="/include-internal.jsp"%>
 
-<jsp:useBean id="diff" type="jetbrains.buildServer.agentsDiff.BuildAgentsDiffBean" scope="request"/>
+<jsp:useBean id="diff" type="jetbrains.buildServer.agentsDiff.BuildDiffBean" scope="request"/>
 
     <c:choose>
       <c:when test="${not empty diff.entries}">
         <table id="agentsDiffTable" class="diffTable">
-          <th>Build Parameter</th>
-          <th>${diff.agentA}</th>
-          <th>${diff.agentB}</th>
+          <tr>
+          <th>Build Type Parameter</th>
+          <th>${diff.buildTypeA}</th>
+          <th>${diff.buildTypeB}</th>
+          </tr>
+          <tr>
+            <th>Build Parameter</th>
+            <th>${diff.buildIdA}</th>
+            <th>${diff.buildIdB}</th>
+          </tr>
           <c:forEach items="${diff.entries}" var="entry">
             <c:set var="propertyName" value="${entry.propertyName}"/>
             <c:set var="propertyValueA" value="${entry.propertyValueA}"/>

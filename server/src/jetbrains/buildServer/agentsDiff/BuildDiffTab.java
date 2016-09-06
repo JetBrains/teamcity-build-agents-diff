@@ -61,6 +61,7 @@ public class BuildDiffTab extends SimpleCustomTab {
 
     if (buildTypeExternalIdB == null)
     {
+      System.err.print("warning; defaulting b as null to " + buildTypeExternalId);
       buildTypeExternalIdB = buildTypeExternalId;
     }
 
@@ -78,16 +79,12 @@ public class BuildDiffTab extends SimpleCustomTab {
 
     java.util.List availableBuilds = new java.util.ArrayList();
 
-    String all = request.getParameter("all");
-    if (all != null && !all.toLowerCase().equals("false")) {
-      availableBuilds = builds;
-    } else {
-      for (Object build : builds) {
-        if (buildTypeExternalIdB.equals(((SBuild) build).getBuildTypeExternalId())) {
-          availableBuilds.add(build);
-        }
+    for (Object build : builds) {
+      if (buildTypeExternalIdB.equals(((SBuild) build).getBuildTypeExternalId())) {
+        availableBuilds.add(build);
       }
     }
+    System.out.print("Rebuitl all buidls to contain " + availableBuilds.size());
 
     model.put("allBuilds", availableBuilds);
     model.put("allBuildTypes", buildTypes);
