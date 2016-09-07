@@ -36,19 +36,16 @@ public class BuildDiffViewController extends BaseFormXmlController {
   private static final String AGENTS_DIFF_VIEW_HTML = "/builds/diffView.html**";
 
   @NotNull private final PluginDescriptor myPluginDescriptor;
-  @NotNull private final BuildsManager myBuildAgentManager;
   @NotNull private final BuildHistory myBuildHistory;
-  @NotNull private final BuildAgentsDiffCalculator myDiffCalculator = new BuildAgentsDiffCalculator();
+  @NotNull private final BuildDiffCalculator myDiffCalculator = new BuildDiffCalculator();
 
   public BuildDiffViewController(@NotNull SBuildServer server,
                                        @NotNull PluginDescriptor pluginDescriptor,
                                        @NotNull WebControllerManager webControllerManager,
-                                       @NotNull BuildsManager buildAgentManager,
                                        @NotNull BuildHistoryEx buildHistory) {
     super(server);
     myBuildHistory = buildHistory;
     myPluginDescriptor = pluginDescriptor;
-    myBuildAgentManager = buildAgentManager;
     webControllerManager.registerController(AGENTS_DIFF_VIEW_HTML, this);
   }
 

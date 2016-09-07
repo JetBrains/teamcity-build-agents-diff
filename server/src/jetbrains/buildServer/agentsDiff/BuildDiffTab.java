@@ -47,7 +47,7 @@ public class BuildDiffTab extends SimpleCustomTab {
     super(pagePlaces, PlaceId.BUILD_RESULTS_TAB, "diff", pluginDescriptor.getPluginResourcesPath("buildDiffTab.jsp"), "Diff");
     myBuildHistory = buildHistory;
     addCssFile(pluginDescriptor.getPluginResourcesPath("agentsDiff.css"));
-    addJsFile(pluginDescriptor.getPluginResourcesPath("agentsDiff.js"));
+    addJsFile(pluginDescriptor.getPluginResourcesPath("buildDiff.js"));
     addJsFile(pluginDescriptor.getPluginResourcesPath("libs/diff_match_patch.js"));
     register();
   }
@@ -61,7 +61,6 @@ public class BuildDiffTab extends SimpleCustomTab {
 
     if (buildTypeExternalIdB == null)
     {
-      System.err.print("warning; defaulting b as null to " + buildTypeExternalId);
       buildTypeExternalIdB = buildTypeExternalId;
     }
 
@@ -84,7 +83,6 @@ public class BuildDiffTab extends SimpleCustomTab {
         availableBuilds.add(build);
       }
     }
-    System.out.print("Rebuitl all buidls to contain " + availableBuilds.size());
 
     model.put("allBuilds", availableBuilds);
     model.put("allBuildTypes", buildTypes);
