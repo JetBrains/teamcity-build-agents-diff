@@ -48,6 +48,9 @@
     <div id="agentsDiffView"></div>
 
     <script type="application/javascript">
+      prevBuildTypeValue = "${param.buildTypeId}";
+      prevBuildTypeBValue = "${param.buildTypeIdB}";
+
       BS.AgentsDiff.chooseAgents();
       BS.AgentsDiff.updateDiff('${ajaxUrl}');
 

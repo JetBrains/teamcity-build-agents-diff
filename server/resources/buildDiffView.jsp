@@ -51,6 +51,13 @@
         </script>
       </c:when>
       <c:otherwise>
+        <c:choose>
+        <c:when test="${empty diff.buildIdB}">
+          Please choose a build to compare with.
+        </c:when>
+          <c:otherwise>
         Builds are identical.
+          </c:otherwise>
+        </c:choose>
       </c:otherwise>
     </c:choose>

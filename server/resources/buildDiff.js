@@ -16,6 +16,8 @@
 
 /**
  * Created by Evgeniy.Koshkin on 18.03.14.
+ *
+ * Thank you for the days...
  */
 
 BS.AgentsDiff = {
@@ -56,12 +58,49 @@ BS.AgentsDiff = {
 
     if (buildTypeIdB)
     {
-      var params = url.split("?")[1];
-      var newURL = "/viewLog.html?tab=diff&"+ params +"&buildTypeIdB=" + buildTypeIdB;
+      // If a different buildtype is selected and has changed from the previous value, we must force a reload of the page
+      // to get the correct population of builds to choose from.
 
-      if (!location.href.endsWith(newURL)) {
-        location.replace(newURL);
+      //
+      // #|var          | Prev Value | Selected value | action  | case:
+      // 1|buildtypeb   | null       | null           | nothing | initial webpage
+      // 2|buildtypeb   | null       | b              | refresh | another selected
+      // 3|buildtypeb   | b          | b              | nothing | another selected, then a build selected
+      // 4|buildtypeb   | b          | a              | refresh | another selected, then original build type selected
+      //
+
+
+      var params = url.split("?");
+
+      if (buildTypeIdB && prevBuildTypeBValue)
+      {
+        if (buildTypeIdB === prevBuildTypeBValue)
+        {
+          //nothing to do as hasn't changed.
+        }
+        else
+          {
+          //value has changed..
+          var newURL = "/viewLog.html?tab=diff&buildTypeIdB=" + buildTypeIdB + "&" + params[1];
+          console.log("value has changed - " + newURL);
+          location.replace(newURL);
+        }
       }
+      else if (buildTypeIdB && !prevBuildTypeBValue)
+      {
+        if (prevBuildTypeValue === buildTypeIdB)
+        {
+          //inital webpage state...
+        }
+        else
+        {
+          var destination = "/viewLog.html?tab=diff&buildTypeIdB=" + buildTypeIdB +"&" + params[1] ;
+          console.log("value is new and can be appended: " + destination);
+          location.replace(destination);
+        }
+        //Note url points to /builds/diffView.html rather than /viewLog.html
+      }
+
       return true;
     }
 

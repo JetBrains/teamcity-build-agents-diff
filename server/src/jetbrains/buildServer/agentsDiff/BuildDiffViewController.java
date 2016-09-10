@@ -58,14 +58,15 @@ public class BuildDiffViewController extends BaseFormXmlController {
     final String buildNumberB = request.getParameter("buildIdB");
     final String externalBuildTypeA = request.getParameter("buildTypeId");
     final String externalBuildTypeB = request.getParameter("buildTypeIdB");
-    if(!buildNumberA.isEmpty() && !buildNumberB.isEmpty()){
+
+    if (buildNumberA != null && buildNumberA.length() > 0 && buildNumberB != null && buildNumberB.length() > 0) {
 
       java.util.List<SFinishedBuild> x = myBuildHistory.getEntries(true);
 
       SFinishedBuild buildA = findBuild(buildNumberA, externalBuildTypeA, x);
       SFinishedBuild buildB = findBuild(buildNumberB, externalBuildTypeB, x);
 
-      if(buildA != null && buildB != null) {
+      if (buildA != null && buildB != null) {
         diff = myDiffCalculator.calculateDiff(buildA, buildB);
       }
     }

@@ -45,6 +45,8 @@ public class BuildDiffBean {
   }
 
   public String getBuildIdB() {
+    if (myAgentB == null)
+      return null;
     return myAgentB.getBuildNumber();
   }
 
