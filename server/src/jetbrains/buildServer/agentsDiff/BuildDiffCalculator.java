@@ -27,9 +27,9 @@ import java.util.*;
  * @author Evgeniy.Koshkin
  */
 public class BuildDiffCalculator {
-  public BuildDiffBean calculateDiff(SBuild agentA, SBuild agentB) {
-    final Map<String, String> configParamsA = agentA.getBuildOwnParameters();
-    final Map<String, String> configParamsB = agentB.getBuildOwnParameters();
+  public BuildDiffBean calculateDiff(SBuild buildA, SBuild buildB) {
+    final Map<String, String> configParamsA = buildA.getBuildOwnParameters();
+    final Map<String, String> configParamsB = buildB.getBuildOwnParameters();
 
     final List<BuildAgentsDiffEntry> entries = new LinkedList<BuildAgentsDiffEntry>();
 
@@ -56,6 +56,6 @@ public class BuildDiffCalculator {
         return o1.getPropertyName().compareToIgnoreCase(o2.getPropertyName());
       }
     });
-    return new BuildDiffBean(agentA, agentB, entries);
+    return new BuildDiffBean(buildA, buildB, entries);
   }
 }

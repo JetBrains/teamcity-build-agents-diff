@@ -26,13 +26,13 @@ import java.util.Collections;
  * @author Evgeniy.Koshkin
  */
 public class BuildDiffBean {
-  private final SBuild myAgentA;
-  private final SBuild myAgentB;
+  private final SBuild myBuildA;
+  private final SBuild myBuildB;
   private final Collection<BuildAgentsDiffEntry> myEntries;
 
-  public BuildDiffBean(SBuild agentA, SBuild agentB, Collection<BuildAgentsDiffEntry> entries) {
-    myAgentA = agentA;
-    myAgentB = agentB;
+  public BuildDiffBean(SBuild buildA, SBuild buildB, Collection<BuildAgentsDiffEntry> entries) {
+    myBuildA = buildA;
+    myBuildB = buildB;
     myEntries = entries;
   }
 
@@ -41,21 +41,21 @@ public class BuildDiffBean {
   }
 
   public String getBuildIdA() {
-    return myAgentA.getBuildNumber();
+    return myBuildA.getBuildNumber();
   }
 
   public String getBuildIdB() {
-    if (myAgentB == null)
+    if (myBuildB == null)
       return null;
-    return myAgentB.getBuildNumber();
+    return myBuildB.getBuildNumber();
   }
 
   public String getBuildTypeA() {
-    return myAgentA.getBuildTypeExternalId();
+    return myBuildA.getBuildTypeExternalId();
   }
 
   public String getBuildTypeB() {
-    return myAgentB.getBuildTypeExternalId();
+    return myBuildB.getBuildTypeExternalId();
   }
 
   public static BuildDiffBean empty() {

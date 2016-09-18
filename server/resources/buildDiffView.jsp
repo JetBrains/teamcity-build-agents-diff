@@ -4,7 +4,7 @@
 
     <c:choose>
       <c:when test="${not empty diff.entries}">
-        <table id="agentsDiffTable" class="diffTable">
+        <table id="buildDiffTable" class="diffTable">
           <tr>
           <th>Build Type Parameter</th>
           <th>${diff.buildTypeA}</th>
@@ -47,7 +47,7 @@
           </c:forEach>
         </table>
         <script type="application/javascript">
-          BS.AgentsDiff.colorize();
+          BS.BuildDiff.colorize();
         </script>
       </c:when>
       <c:otherwise>

@@ -33,7 +33,7 @@ import java.util.List;
  */
 public class BuildDiffViewController extends BaseFormXmlController {
 
-  private static final String AGENTS_DIFF_VIEW_HTML = "/builds/diffView.html**";
+  private static final String BUILD_DIFF_VIEW_HTML = "/builds/diffView.html**";
 
   @NotNull private final PluginDescriptor myPluginDescriptor;
   @NotNull private final BuildHistory myBuildHistory;
@@ -46,7 +46,7 @@ public class BuildDiffViewController extends BaseFormXmlController {
     super(server);
     myBuildHistory = buildHistory;
     myPluginDescriptor = pluginDescriptor;
-    webControllerManager.registerController(AGENTS_DIFF_VIEW_HTML, this);
+    webControllerManager.registerController(BUILD_DIFF_VIEW_HTML, this);
   }
 
   @Override

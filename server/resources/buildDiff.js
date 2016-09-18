@@ -20,9 +20,9 @@
  * Thank you for the days...
  */
 
-BS.AgentsDiff = {
+BS.BuildDiff = {
 
-  chooseAgents: function(){
+  chooseBuild: function(){
     var parsedHash = BS.Util.paramsFromHash('&');
     var processed = false;
     var agendAId = parsedHash['buildIdB'];
@@ -51,7 +51,7 @@ BS.AgentsDiff = {
 
     var buildIdB = $j('#buildBSelection').val();
     var buildTypeIdB = $j('#buildTypeBSelection').val();
-    BS.ajaxUpdater($('agentsDiffView'), url + "&buildIdB=" + buildIdB + "&buildTypeIdB=" + buildTypeIdB, {
+    BS.ajaxUpdater($('buildDiffView'), url + "&buildIdB=" + buildIdB + "&buildTypeIdB=" + buildTypeIdB, {
       method: 'get',
       evalScripts: true
     });
@@ -115,8 +115,8 @@ BS.AgentsDiff = {
       if(propACell && propBCell){
         var textA = propACell.text();
         var textB = propBCell.text();
-        var diffABHtml = BS.AgentsDiff.diff2Html(dmp.diff_main(textA, textB));
-        var diffBAHtml = BS.AgentsDiff.diff2Html(dmp.diff_main(textB, textA));
+        var diffABHtml = BS.BuildDiff.diff2Html(dmp.diff_main(textA, textB));
+        var diffBAHtml = BS.BuildDiff.diff2Html(dmp.diff_main(textB, textA));
         propACell.html(diffBAHtml);
         propBCell.html(diffABHtml);
       }
