@@ -13,27 +13,31 @@
     <div class="actionBar">
       <label>Compare with build type:</label>
 
-      <forms:select name="buildTypeBSelection" id="buildTypeBSelection" style="width: 20em" enableFilter="true" onchange="return BS.BuildDiff.updateDiff('${ajaxUrl}');">
-        <c:choose>
-          <c:when test="${empty param.buildTypeIdB}">
-            <forms:option value="${param.buildTypeId}">${param.buildTypeId}</forms:option>
-          </c:when>
-          <c:otherwise>
-            <forms:option value="${param.buildTypeIdB}">${param.buildTypeIdB}</forms:option>
-          </c:otherwise>
-        </c:choose>
+      <c:choose>
+        <c:when test="${empty param.buildTypeIdB}">
+          <c:set var="selectedbuildType" value="${param.buildTypeId}"/>
+        </c:when>
+        <c:otherwise>
+          <c:set var="selectedbuildType" value="${param.buildTypeIdB}"/>
+        </c:otherwise>
+      </c:choose>
 
-        <c:forEach items="${allBuildTypes}" var="buildA">
-          <c:set var="buildAId" value="${buildA}"/>
+      <forms:select name="buildTypeBSelection" id="buildTypeBSelection"
+                    style="width: 20em" enableFilter="true"
+                    onchange="return BS.BuildDiff.updateDiff('${ajaxUrl}');">
 
-          <forms:option value="${buildA}">
-            <c:out value="${buildA}"/>
+        <c:forEach items="${allBuildTypes}" var="potentialBuildType">
+          <forms:option value="${potentialBuildType}" selected="${potentialBuildType == selectedbuildType}">
+            <c:out value="${potentialBuildType}"/>
           </forms:option>
         </c:forEach>
       </forms:select>
 
       <label>build:</label>
-      <forms:select name="buildBSelection" id="buildBSelection" style="width: 20em" enableFilter="true" onchange="return BS.BuildDiff.updateDiff('${ajaxUrl}');">
+      <forms:select name="buildBSelection" id="buildBSelection"
+                    style="width: 20em" enableFilter="true"
+                    onchange="return BS.BuildDiff.updateDiff('${ajaxUrl}');">
+
         <forms:option value="">-- Select build --</forms:option>
         <c:forEach items="${allBuilds}" var="buildA">
           <c:set var="buildAId" value="${buildA}"/>
