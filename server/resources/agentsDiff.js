@@ -25,12 +25,12 @@ BS.AgentsDiff = {
     var processed = false;
     var agendAId = parsedHash['agentA'];
     if (agendAId) {
-      $j('#agentASelection').val(agendAId);
+      $j('#agentASelection').val(agendAId).change();
       processed = true;
     }
     var agentBId = parsedHash['agentB'];
     if (agentBId) {
-      $j('#agentBSelection').val(agentBId);
+      $j('#agentBSelection').val(agentBId).change();
       processed = true;
     }
     if(processed){

@@ -29,7 +29,9 @@ public class BuildAgentsDiffBean {
   private final BuildAgentEx myAgentB;
   private final Collection<BuildAgentsDiffEntry> myEntries;
 
-  public BuildAgentsDiffBean(BuildAgentEx agentA, BuildAgentEx agentB, Collection<BuildAgentsDiffEntry> entries) {
+  public BuildAgentsDiffBean(BuildAgentEx agentA,
+                             BuildAgentEx agentB,
+                             Collection<BuildAgentsDiffEntry> entries) {
     myAgentA = agentA;
     myAgentB = agentB;
     myEntries = entries;

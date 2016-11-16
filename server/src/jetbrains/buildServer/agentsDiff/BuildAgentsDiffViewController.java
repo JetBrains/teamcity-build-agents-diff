@@ -54,6 +54,7 @@ public class BuildAgentsDiffViewController extends BaseFormXmlController {
   protected ModelAndView doGet(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response) {
     final ModelAndView view = new ModelAndView(myPluginDescriptor.getPluginResourcesPath("agentsDiffView.jsp"));
     BuildAgentsDiffBean diff = BuildAgentsDiffBean.empty();
+    String diffPermalink = "";
 
     final String agentAIdString = request.getParameter("agentA");
     final String agentBIdString = request.getParameter("agentB");
@@ -64,10 +65,12 @@ public class BuildAgentsDiffViewController extends BaseFormXmlController {
       final BuildAgentEx agentB = myBuildAgentManager.findAgentById(agentBId, true);
       if(agentA != null && agentB != null) {
         diff = myDiffCalculator.calculateDiff(agentA, agentB);
+        diffPermalink = BuildAgentsDiffUtils.getDiffPermalink(agentA, agentB);
       }
     }
 
     view.getModel().put("diff", diff);
+    view.getModel().put("diffPermalink", diffPermalink);
     return view;
   }
 

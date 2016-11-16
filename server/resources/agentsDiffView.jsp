@@ -1,6 +1,7 @@
 <%@ include file="/include-internal.jsp"%>
 
 <jsp:useBean id="diff" type="jetbrains.buildServer.agentsDiff.BuildAgentsDiffBean" scope="request"/>
+<jsp:useBean id="diffPermalink" type="java.lang.String" scope="request"/>
 
 <c:choose>
   <c:when test="${diff.agentA == null || diff.agentB == null}">
@@ -9,10 +10,14 @@
   <c:otherwise>
     <c:choose>
       <c:when test="${not empty diff.entries}">
+        <c:set var="diffPermalinkFullUrl"><c:url value="${diffPermalink}"/></c:set>
+        <a style="float: right" href="${diffPermalinkFullUrl}">Permalink</a>
         <table id="agentsDiffTable" class="diffTable">
           <th>Agent Parameter</th>
-          <th>${diff.agentA.name}</th>
-          <th>${diff.agentB.name}</th>
+          <c:set var="agentATypeIdString">${diff.agentA.agentTypeId}</c:set>
+          <c:set var="agentBTypeIdString">${diff.agentB.agentTypeId}</c:set>
+          <th><bs:agentDetailsLink agentName="${diff.agentA.name}" agentTypeId="${agentATypeIdString}"/></th>
+          <th><bs:agentDetailsLink agentName="${diff.agentB.name}" agentTypeId="${agentBTypeIdString}"/></th>
           <c:forEach items="${diff.entries}" var="entry">
             <c:set var="propertyName" value="${entry.propertyName}"/>
             <c:set var="propertyValueA" value="${entry.propertyValueA}"/>

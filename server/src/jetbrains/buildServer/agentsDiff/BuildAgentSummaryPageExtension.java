@@ -53,7 +53,7 @@ public class BuildAgentSummaryPageExtension extends SimplePageExtension {
   public final void fillModel(@NotNull final Map<String, Object> model, @NotNull final HttpServletRequest request) {
     SBuildAgent agent = getAgent(request);
     if (agent != null) {
-      model.put("diffUrl", "agents.html?tab=diff#agentA=" + agent.getId());
+      model.put("diffUrl", BuildAgentsDiffUtils.getDiffPermalink(agent, null));
     }
   }
 
