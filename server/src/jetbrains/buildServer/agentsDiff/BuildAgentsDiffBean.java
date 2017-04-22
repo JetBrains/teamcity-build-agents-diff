@@ -16,7 +16,10 @@
 
 package jetbrains.buildServer.agentsDiff;
 
-import jetbrains.buildServer.serverSide.BuildAgentEx;
+import jetbrains.buildServer.BuildAgent;
+import jetbrains.buildServer.serverSide.AgentDescription;
+import jetbrains.buildServer.serverSide.SBuildAgent;
+import jetbrains.buildServer.serverSide.agentTypes.AgentType;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -25,12 +28,12 @@ import java.util.Collections;
  * @author Evgeniy.Koshkin
  */
 public class BuildAgentsDiffBean {
-  private final BuildAgentEx myAgentA;
-  private final BuildAgentEx myAgentB;
+  private final AgentDescription myAgentA;
+  private final AgentDescription myAgentB;
   private final Collection<BuildAgentsDiffEntry> myEntries;
 
-  public BuildAgentsDiffBean(BuildAgentEx agentA,
-                             BuildAgentEx agentB,
+  public BuildAgentsDiffBean(AgentDescription agentA,
+                             AgentDescription agentB,
                              Collection<BuildAgentsDiffEntry> entries) {
     myAgentA = agentA;
     myAgentB = agentB;
@@ -41,15 +44,31 @@ public class BuildAgentsDiffBean {
     return myEntries;
   }
 
-  public BuildAgentEx getAgentA() {
+  public AgentDescription getDescriptionA() {
     return myAgentA;
   }
 
-  public BuildAgentEx getAgentB() {
+  public AgentDescription getDescriptionB() {
     return myAgentB;
   }
 
+  public SBuildAgent getAgentA() {
+    return myAgentA instanceof SBuildAgent ? (SBuildAgent) myAgentA : null;
+  }
+
+  public SBuildAgent getAgentB() {
+    return myAgentB instanceof SBuildAgent ? (SBuildAgent) myAgentB : null;
+  }
+
+  public String getIdA() {
+    return String.valueOf(myAgentA instanceof BuildAgent ? ((BuildAgent) myAgentA).getId() : (((AgentType) myAgentA)).getAgentTypeId());
+  }
+
+  public String getIdB() {
+    return String.valueOf(myAgentB instanceof BuildAgent ? ((BuildAgent) myAgentB).getId() : (((AgentType) myAgentB)).getAgentTypeId());
+  }
+
   public static BuildAgentsDiffBean empty() {
-    return new BuildAgentsDiffBean(null, null, Collections.EMPTY_LIST);
+    return new BuildAgentsDiffBean(null, null, Collections.<BuildAgentsDiffEntry>emptyList());
   }
 }

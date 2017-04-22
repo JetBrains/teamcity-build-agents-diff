@@ -4,7 +4,7 @@
 <jsp:useBean id="diffPermalink" type="java.lang.String" scope="request"/>
 
 <c:choose>
-  <c:when test="${diff.agentA == null || diff.agentB == null}">
+  <c:when test="${diff.descriptionA == null || diff.descriptionB == null}">
     <span>Please choose build agents to compare.</span>
   </c:when>
   <c:otherwise>
@@ -14,10 +14,18 @@
         <a style="float: right" href="${diffPermalinkFullUrl}">Permalink</a>
         <table id="agentsDiffTable" class="diffTable">
           <th>Agent Parameter</th>
-          <c:set var="agentATypeIdString">${diff.agentA.agentTypeId}</c:set>
-          <c:set var="agentBTypeIdString">${diff.agentB.agentTypeId}</c:set>
-          <th><bs:agentDetailsLink agentName="${diff.agentA.name}" agentTypeId="${agentATypeIdString}"/></th>
-          <th><bs:agentDetailsLink agentName="${diff.agentB.name}" agentTypeId="${agentBTypeIdString}"/></th>
+          <th>
+            <c:choose>
+              <c:when test="${diff.agentA != null}"> <bs:agentDetailsLink agent="${diff.agentA}"/> </c:when>
+              <c:otherwise> <bs:agentDetailsLink agentTypeId="${diff.idA}"/> </c:otherwise>
+            </c:choose>
+          </th>
+          <th>
+            <c:choose>
+              <c:when test="${diff.agentB != null}"> <bs:agentDetailsLink agent="${diff.agentB}"/> </c:when>
+              <c:otherwise> <bs:agentDetailsLink agentTypeId="${diff.idB}"/> </c:otherwise>
+            </c:choose>
+          </th>
           <c:forEach items="${diff.entries}" var="entry">
             <c:set var="propertyName" value="${entry.propertyName}"/>
             <c:set var="propertyValueA" value="${entry.propertyValueA}"/>

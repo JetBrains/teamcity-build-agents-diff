@@ -18,7 +18,8 @@ package jetbrains.buildServer.agentsDiff;
 
 import com.google.common.collect.MapDifference;
 import com.google.common.collect.Maps;
-import jetbrains.buildServer.serverSide.BuildAgentEx;
+import jetbrains.buildServer.serverSide.AgentDescription;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -26,7 +27,8 @@ import java.util.*;
  * @author Evgeniy.Koshkin
  */
 public class BuildAgentsDiffCalculator {
-  public BuildAgentsDiffBean calculateDiff(BuildAgentEx agentA, BuildAgentEx agentB) {
+  @NotNull
+  public BuildAgentsDiffBean calculateDiff(@NotNull final AgentDescription agentA, @NotNull final AgentDescription agentB) {
     final Map<String, String> configParamsA = agentA.getAvailableParameters();
     final Map<String, String> configParamsB = agentB.getAvailableParameters();
 
