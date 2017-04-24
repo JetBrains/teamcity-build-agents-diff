@@ -20,7 +20,7 @@ import jetbrains.buildServer.controllers.BaseFormXmlController;
 import jetbrains.buildServer.serverSide.AgentDescription;
 import jetbrains.buildServer.serverSide.BuildAgentManagerEx;
 import jetbrains.buildServer.serverSide.SBuildServer;
-import jetbrains.buildServer.serverSide.agentTypes.AgentTypeManager;
+import jetbrains.buildServer.serverSide.agentTypes.AgentTypeStorage;
 import jetbrains.buildServer.util.StringUtil;
 import jetbrains.buildServer.web.openapi.PluginDescriptor;
 import jetbrains.buildServer.web.openapi.WebControllerManager;
@@ -42,17 +42,17 @@ public class BuildAgentsDiffViewController extends BaseFormXmlController {
   @NotNull private final PluginDescriptor myPluginDescriptor;
   @NotNull private final BuildAgentManagerEx myBuildAgentManager;
   @NotNull
-  private final AgentTypeManager myAgentTypeManager;
+  private final AgentTypeStorage myAgentTypeStorage;
   @NotNull private final BuildAgentsDiffCalculator myDiffCalculator = new BuildAgentsDiffCalculator();
 
   public BuildAgentsDiffViewController(@NotNull SBuildServer server,
                                        @NotNull PluginDescriptor pluginDescriptor,
                                        @NotNull WebControllerManager webControllerManager,
-                                       @NotNull AgentTypeManager agentTypeManager,
+                                       @NotNull AgentTypeStorage agentTypeStorage,
                                        @NotNull BuildAgentManagerEx buildAgentManager) {
     super(server);
     myPluginDescriptor = pluginDescriptor;
-    myAgentTypeManager = agentTypeManager;
+    myAgentTypeStorage = agentTypeStorage;
     myBuildAgentManager = buildAgentManager;
     webControllerManager.registerController(AGENTS_DIFF_VIEW_HTML, this);
   }
@@ -83,7 +83,7 @@ public class BuildAgentsDiffViewController extends BaseFormXmlController {
     try {
       if (input.startsWith(TYPE_PREFIX)) {
         int id = Integer.parseInt(input.substring(TYPE_PREFIX.length()));
-        return myAgentTypeManager.findAgentTypeById(id);
+        return myAgentTypeStorage.findAgentTypeById(id);
       }
       int id = Integer.parseInt(input);
       return myBuildAgentManager.findAgentById(id, true);
