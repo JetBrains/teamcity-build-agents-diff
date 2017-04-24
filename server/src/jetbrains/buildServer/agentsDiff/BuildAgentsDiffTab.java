@@ -17,6 +17,11 @@
 package jetbrains.buildServer.agentsDiff;
 
 import jetbrains.buildServer.serverSide.BuildAgentManagerEx;
+import jetbrains.buildServer.serverSide.agentTypes.AgentType;
+import jetbrains.buildServer.serverSide.agentTypes.AgentTypeManager;
+import jetbrains.buildServer.serverSide.agentTypes.SAgentType;
+import jetbrains.buildServer.util.Converter;
+import jetbrains.buildServer.util.filters.Filter;
 import jetbrains.buildServer.web.openapi.PagePlaces;
 import jetbrains.buildServer.web.openapi.PlaceId;
 import jetbrains.buildServer.web.openapi.PluginDescriptor;
@@ -24,7 +29,10 @@ import jetbrains.buildServer.web.openapi.SimpleCustomTab;
 import org.jetbrains.annotations.NotNull;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
+
+import static jetbrains.buildServer.util.CollectionsUtil.*;
 
 /**
  * @author Evgeniy.Koshkin
@@ -32,12 +40,15 @@ import java.util.Map;
 public class BuildAgentsDiffTab extends SimpleCustomTab {
 
   private final BuildAgentManagerEx myBuildAgentManager;
+  private final AgentTypeManager myAgentTypeManager;
 
   public BuildAgentsDiffTab(@NotNull PagePlaces pagePlaces,
                             @NotNull PluginDescriptor pluginDescriptor,
+                            @NotNull AgentTypeManager agentTypeManager,
                             @NotNull BuildAgentManagerEx buildAgentManager) {
     super(pagePlaces, PlaceId.AGENTS_TAB, "diff", pluginDescriptor.getPluginResourcesPath("agentsDiffTab.jsp"), "Diff");
     myBuildAgentManager = buildAgentManager;
+    myAgentTypeManager = agentTypeManager;
     addCssFile(pluginDescriptor.getPluginResourcesPath("agentsDiff.css"));
     addJsFile(pluginDescriptor.getPluginResourcesPath("agentsDiff.js"));
     addJsFile(pluginDescriptor.getPluginResourcesPath("libs/diff_match_patch.js"));
@@ -48,5 +59,19 @@ public class BuildAgentsDiffTab extends SimpleCustomTab {
   public void fillModel(@NotNull Map<String, Object> model, @NotNull HttpServletRequest request) {
     super.fillModel(model, request);
     model.put("allAgents", myBuildAgentManager.getAllAgents());
+
+    List<AgentType> types = filterCollection(filterNulls(convertCollection(myAgentTypeManager.getAgentTypeIds(), new Converter<AgentType, Integer>() {
+      @Override
+      public AgentType createFrom(@NotNull Integer id) {
+        return myAgentTypeManager.findAgentTypeById(id);
+      }
+    })), new Filter<AgentType>() {
+      @Override
+      public boolean accept(@NotNull AgentType data) {
+        return data instanceof SAgentType && ((SAgentType) data).getRealAgent() == null;
+
+      }
+    });
+    model.put("cloudAgentTypes", types);
   }
 }

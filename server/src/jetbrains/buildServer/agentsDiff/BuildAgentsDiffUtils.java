@@ -16,7 +16,6 @@
 
 package jetbrains.buildServer.agentsDiff;
 
-import jetbrains.buildServer.serverSide.SBuildAgent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,10 +24,10 @@ import org.jetbrains.annotations.Nullable;
  */
 class BuildAgentsDiffUtils {
   @NotNull
-  static String getDiffPermalink(@NotNull SBuildAgent agentA, @Nullable SBuildAgent agentB){
-    String diffPermalink = "/agents.html?tab=diff#agentA=" + agentA.getId();
-    if(agentB != null){
-      diffPermalink += "&agentB=" + agentB.getId();
+  static String getDiffPermalink(@NotNull String agentAId, @Nullable String agentBId) {
+    String diffPermalink = "/agents.html?tab=diff#agentA=" + agentAId;
+    if (agentBId != null) {
+      diffPermalink += "&agentB=" + agentBId;
     }
     return diffPermalink;
   }
