@@ -16,7 +16,7 @@
 
 package jetbrains.buildServer.agentsDiff;
 
-import jetbrains.buildServer.controllers.BaseFormXmlController;
+import jetbrains.buildServer.controllers.BaseController;
 import jetbrains.buildServer.serverSide.AgentDescription;
 import jetbrains.buildServer.serverSide.BuildAgentManagerEx;
 import jetbrains.buildServer.serverSide.SBuildServer;
@@ -24,8 +24,8 @@ import jetbrains.buildServer.serverSide.agentTypes.AgentTypeStorage;
 import jetbrains.buildServer.util.StringUtil;
 import jetbrains.buildServer.web.openapi.PluginDescriptor;
 import jetbrains.buildServer.web.openapi.WebControllerManager;
-import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author Evgeniy.Koshkin
  */
-public class BuildAgentsDiffViewController extends BaseFormXmlController {
+public class BuildAgentsDiffViewController extends BaseController {
 
   private static final String AGENTS_DIFF_VIEW_HTML = "/agents/diffView.html**";
   public static final String TYPE_PREFIX = "type-";
@@ -57,8 +57,9 @@ public class BuildAgentsDiffViewController extends BaseFormXmlController {
     webControllerManager.registerController(AGENTS_DIFF_VIEW_HTML, this);
   }
 
+  @Nullable
   @Override
-  protected ModelAndView doGet(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response) {
+  protected ModelAndView doHandle(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response) throws Exception {
     final ModelAndView view = new ModelAndView(myPluginDescriptor.getPluginResourcesPath("agentsDiffView.jsp"));
     BuildAgentsDiffBean diff = BuildAgentsDiffBean.empty();
     String diffPermalink = "";
@@ -90,9 +91,5 @@ public class BuildAgentsDiffViewController extends BaseFormXmlController {
     } catch (NumberFormatException e) {
       return null;
     }
-  }
-
-  @Override
-  protected void doPost(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Element xmlResponse) {
   }
 }
