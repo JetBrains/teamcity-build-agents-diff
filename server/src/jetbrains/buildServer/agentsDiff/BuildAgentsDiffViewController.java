@@ -17,6 +17,7 @@
 package jetbrains.buildServer.agentsDiff;
 
 import jetbrains.buildServer.controllers.BaseFormXmlController;
+import jetbrains.buildServer.controllers.agent.AgentDetailsFormFactory;
 import jetbrains.buildServer.serverSide.AgentDescription;
 import jetbrains.buildServer.serverSide.BuildAgentManagerEx;
 import jetbrains.buildServer.serverSide.SBuildServer;
@@ -44,16 +45,19 @@ public class BuildAgentsDiffViewController extends BaseFormXmlController {
   @NotNull
   private final AgentTypeStorage myAgentTypeStorage;
   @NotNull private final BuildAgentsDiffCalculator myDiffCalculator = new BuildAgentsDiffCalculator();
+  @NotNull private final AgentDetailsFormFactory myAgentDetailsFormFactory;
 
   public BuildAgentsDiffViewController(@NotNull SBuildServer server,
                                        @NotNull PluginDescriptor pluginDescriptor,
                                        @NotNull WebControllerManager webControllerManager,
                                        @NotNull AgentTypeStorage agentTypeStorage,
-                                       @NotNull BuildAgentManagerEx buildAgentManager) {
+                                       @NotNull BuildAgentManagerEx buildAgentManager,
+                                       @NotNull AgentDetailsFormFactory agentDetailsFormFactory) {
     super(server);
     myPluginDescriptor = pluginDescriptor;
     myAgentTypeStorage = agentTypeStorage;
     myBuildAgentManager = buildAgentManager;
+    myAgentDetailsFormFactory = agentDetailsFormFactory;
     webControllerManager.registerController(AGENTS_DIFF_VIEW_HTML, this);
   }
 
@@ -69,7 +73,7 @@ public class BuildAgentsDiffViewController extends BaseFormXmlController {
     final AgentDescription agentA = getAgentDescription(agentAId);
     final AgentDescription agentB = getAgentDescription(agentBId);
     if (agentA != null && agentB != null) {
-      diff = myDiffCalculator.calculateDiff(agentA, agentB);
+      diff = myDiffCalculator.calculateDiff(agentA, agentB, myAgentDetailsFormFactory);
       diffPermalink = BuildAgentsDiffUtils.getDiffPermalink(agentAId, agentBId);
     }
 
