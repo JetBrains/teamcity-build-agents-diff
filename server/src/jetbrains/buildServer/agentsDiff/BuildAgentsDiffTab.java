@@ -16,6 +16,7 @@
 
 package jetbrains.buildServer.agentsDiff;
 
+import jetbrains.buildServer.BuildAgent;
 import jetbrains.buildServer.serverSide.BuildAgentEx;
 import jetbrains.buildServer.serverSide.BuildAgentManagerEx;
 import jetbrains.buildServer.serverSide.agentTypes.AgentType;
@@ -31,9 +32,10 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static jetbrains.buildServer.util.CollectionsUtil.*;
 
@@ -63,7 +65,12 @@ public class BuildAgentsDiffTab extends SimpleCustomTab {
     super.fillModel(model, request);
     List<BuildAgentEx> authorized = myBuildAgentManager.getAllAgents(false);
     model.put("allAgents", authorized);
-    Collection<BuildAgentEx> unauthorized = new LinkedHashSet<BuildAgentEx>(myBuildAgentManager.getAllAgents(true));
+
+    final Set<Integer> authorizedIds = authorized.stream().map(BuildAgent::getId).collect(Collectors.toSet());
+    Collection<BuildAgentEx> unauthorized = myBuildAgentManager.getAllAgents(true)
+            .stream()
+            .filter(agent -> !authorizedIds.contains(agent.getId()))
+            .collect(Collectors.toList());
     unauthorized.removeAll(authorized);
     model.put("unauthorizedAgents", unauthorized);
 
