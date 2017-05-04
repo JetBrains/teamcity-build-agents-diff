@@ -55,6 +55,7 @@ public class BuildAgentsDiffTab extends SimpleCustomTab {
     addCssFile(pluginDescriptor.getPluginResourcesPath("agentsDiff.css"));
     addJsFile(pluginDescriptor.getPluginResourcesPath("agentsDiff.js"));
     addJsFile(pluginDescriptor.getPluginResourcesPath("libs/diff_match_patch.js"));
+    addJsFile("/js/bs/collapseExpand.js");
     register();
   }
 

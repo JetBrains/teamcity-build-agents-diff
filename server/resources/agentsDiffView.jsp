@@ -88,16 +88,20 @@
           <td>
             <c:set scope="request" var="agentDetails" value="${diff.configurations.formA}"/>
             <c:forEach items="${diff.configurations.missingA}" var="entry2">
+              <%--@elvariable id="entry2" type="Map.Entry<SProject, List<AgentCompatibility>>"--%>
               <agent:projectCompatibleEntries project="${entry2.key}"
                                               compatibilities="${entry2.value}"
+                                              selectedConfigurationsPolicy="${agentDetails.selectedConfigurationsPolicy}"
                                               compatible="true"/>
             </c:forEach>
           </td>
           <td>
             <c:set var="agentDetails" value="${diff.configurations.formB}"/>
             <c:forEach items="${diff.configurations.missingB}" var="entry2">
+              <%--@elvariable id="entry2" type="Map.Entry<SProject, List<AgentCompatibility>>"--%>
               <agent:projectCompatibleEntries project="${entry2.key}"
                                               compatibilities="${entry2.value}"
+                                              selectedConfigurationsPolicy="${agentDetails.selectedConfigurationsPolicy}"
                                               compatible="false"/>
             </c:forEach>
           </td>
