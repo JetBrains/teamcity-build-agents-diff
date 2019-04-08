@@ -1,0 +1,45 @@
+plugins {
+  id 'java'
+  id 'com.github.rodm.teamcity-server' version '1.2'
+}
+
+group = 'org.jetbrains.teamcity'
+version = '1.0-SNAPSHOT'
+
+ext {
+  teamcityVersion = '2017.1'
+}
+
+test {
+  useTestNG()
+}
+
+sourceSets {
+  main {
+    java {
+      srcDirs = ['server/src']
+    }
+    resources {
+      srcDirs = ['server/resources']
+    }
+  }
+  test {
+    java {
+      srcDirs = ['tests/src']
+    }
+  }
+}
+
+dependencies {
+  provided "org.jetbrains.teamcity.internal:server:$teamcityVersion"
+  provided "org.jetbrains.teamcity.internal:web:$teamcityVersion"
+}
+
+teamcity {
+  version = teamcityVersion
+
+  server {
+    descriptor = file("$rootDir/server/teamcity-server-plugin.xml")
+    tokens Plugin_Version: project.version
+  }
+}
