@@ -22,8 +22,6 @@ import jetbrains.buildServer.serverSide.BuildAgentManagerEx;
 import jetbrains.buildServer.serverSide.agentTypes.AgentType;
 import jetbrains.buildServer.serverSide.agentTypes.AgentTypeStorage;
 import jetbrains.buildServer.serverSide.agentTypes.SAgentType;
-import jetbrains.buildServer.util.Converter;
-import jetbrains.buildServer.util.filters.Filter;
 import jetbrains.buildServer.web.openapi.PagePlaces;
 import jetbrains.buildServer.web.openapi.PlaceId;
 import jetbrains.buildServer.web.openapi.PluginDescriptor;
@@ -31,13 +29,8 @@ import jetbrains.buildServer.web.openapi.SimpleCustomTab;
 import org.jetbrains.annotations.NotNull;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
-
-import static jetbrains.buildServer.util.CollectionsUtil.*;
 
 /**
  * @author Evgeniy.Koshkin
@@ -73,18 +66,13 @@ public class BuildAgentsDiffTab extends SimpleCustomTab {
             .collect(Collectors.toList());
     model.put("unauthorizedAgents", unauthorized);
 
-    List<AgentType> types = filterCollection(filterNulls(convertCollection(myAgentTypeStorage.getAgentTypeIds(), new Converter<AgentType, Integer>() {
-      @Override
-      public AgentType createFrom(@NotNull Integer id) {
-        return myAgentTypeStorage.findAgentTypeById(id);
-      }
-    })), new Filter<AgentType>() {
-      @Override
-      public boolean accept(@NotNull AgentType data) {
-        return data instanceof SAgentType && ((SAgentType) data).getRealAgent() == null;
+    List<AgentType> types = myAgentTypeStorage.getAgentTypeIds()
+            .stream()
+            .map(myAgentTypeStorage::findAgentTypeById)
+            .filter(Objects::nonNull)
+            .filter(data -> data instanceof SAgentType && ((SAgentType) data).getRealAgent() == null)
+            .collect(Collectors.toList());
 
-      }
-    });
     model.put("cloudAgentTypes", types);
   }
 }

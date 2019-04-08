@@ -32,7 +32,7 @@ public class BuildAgentsDiffCalculator {
     final Map<String, String> configParamsA = agentA.getAvailableParameters();
     final Map<String, String> configParamsB = agentB.getAvailableParameters();
 
-    final List<BuildAgentsDiffEntry> entries = new LinkedList<BuildAgentsDiffEntry>();
+    final List<BuildAgentsDiffEntry> entries = new LinkedList<>();
 
     final MapDifference<String, String> mapDifference = Maps.difference(configParamsA, configParamsB);
     if(!mapDifference.areEqual()){
@@ -52,11 +52,7 @@ public class BuildAgentsDiffCalculator {
         entries.add(new BuildAgentsDiffEntry(BuildAgentsDiffEntryType.PARAMETER_NAME, key, null, map.get(key)));
       }
     }
-    Collections.sort(entries, new Comparator<BuildAgentsDiffEntry>() {
-      public int compare(BuildAgentsDiffEntry o1, BuildAgentsDiffEntry o2) {
-        return o1.getPropertyName().compareToIgnoreCase(o2.getPropertyName());
-      }
-    });
+    entries.sort((o1, o2) -> o1.getPropertyName().compareToIgnoreCase(o2.getPropertyName()));
     return new BuildAgentsDiffBean(agentA, agentB, entries);
   }
 }

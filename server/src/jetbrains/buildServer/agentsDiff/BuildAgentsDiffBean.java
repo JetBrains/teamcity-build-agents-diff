@@ -69,6 +69,6 @@ public class BuildAgentsDiffBean {
   }
 
   public static BuildAgentsDiffBean empty() {
-    return new BuildAgentsDiffBean(null, null, Collections.<BuildAgentsDiffEntry>emptyList());
+    return new BuildAgentsDiffBean(null, null, Collections.emptyList());
   }
 }
