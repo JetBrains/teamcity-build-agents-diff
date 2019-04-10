@@ -4,7 +4,11 @@ plugins {
 }
 
 group = 'org.jetbrains.teamcity'
-version = '1.0-SNAPSHOT'
+version = "SNAPSHOT-${new Date().format("yyyyMMddHHmm")}".toString()
+
+if (System.getenv('BUILD_NUMBER') != null) {
+  version = "${System.env.BUILD_NUMBER}".toString()
+}
 
 ext {
   teamcityVersion = '2017.1'
@@ -43,3 +47,6 @@ teamcity {
     tokens Plugin_Version: project.version
   }
 }
+
+// Do not include version into plugin archive name
+project.tasks.getByName('serverPlugin').version = ''
