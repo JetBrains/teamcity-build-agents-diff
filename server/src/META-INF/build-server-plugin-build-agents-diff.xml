@@ -10,5 +10,6 @@
   <bean class="jetbrains.buildServer.agentsDiff.BuildAgentsDiffTab"/>
   <bean class="jetbrains.buildServer.agentsDiff.BuildAgentsDiffViewController"/>
   <bean class="jetbrains.buildServer.agentsDiff.BuildAgentSummaryPageExtension"/>
-
+  <bean class="jetbrains.buildServer.agentsDiff.BuildDiffTab"/>
+  <bean class="jetbrains.buildServer.agentsDiff.BuildDiffViewController"/>
 </beans>
