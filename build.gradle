@@ -50,3 +50,4 @@ teamcity {
 
 // Do not include version into plugin archive name
 project.tasks.getByName('serverPlugin').version = ''
+project.tasks.getByName('jar').version = ''
